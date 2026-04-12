@@ -1,0 +1,26 @@
+INFO:ui-server:[METRICS] Prometheus metrics enabled at /metrics
+INFO:     Started server process [25605]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:62951 - "GET / HTTP/1.1" 200 OK
+INFO:httpx:HTTP Request: GET https://ecexjjkpcfvuqpqusqig.supabase.co/rest/v1/call_logs?select=duration_seconds%2Csummary "HTTP/2 200 OK"
+INFO:     127.0.0.1:62951 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:httpx:HTTP Request: GET https://ecexjjkpcfvuqpqusqig.supabase.co/rest/v1/call_logs?select=%2A&order=created_at.desc&limit=50 "HTTP/2 200 OK"
+INFO:     127.0.0.1:62953 - "GET /api/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62960 - "GET / HTTP/1.1" 200 OK
+INFO:httpx:HTTP Request: GET https://ecexjjkpcfvuqpqusqig.supabase.co/rest/v1/call_logs?select=id%2Cphone_number%2Csummary%2Ccreated_at&summary=ilike.%25Confirmed%25&order=created_at.desc&limit=200 "HTTP/2 200 OK"
+INFO:     127.0.0.1:62953 - "GET /api/bookings HTTP/1.1" 200 OK
+INFO:httpx:HTTP Request: GET https://ecexjjkpcfvuqpqusqig.supabase.co/rest/v1/call_logs?select=phone_number%2Ccaller_name%2Csummary%2Ccreated_at&order=created_at.desc&limit=500 "HTTP/2 400 Bad Request"
+ERROR:ui-server:Error fetching contacts: {'message': 'column call_logs.caller_name does not exist', 'code': '42703', 'hint': None, 'details': None}
+INFO:     127.0.0.1:62953 - "GET /api/contacts HTTP/1.1" 200 OK
+INFO:httpx:HTTP Request: GET https://ecexjjkpcfvuqpqusqig.supabase.co/rest/v1/call_logs?select=id%2Cphone_number%2Csummary%2Ccreated_at&summary=ilike.%25Confirmed%25&order=created_at.desc&limit=200 "HTTP/2 200 OK"
+INFO:     127.0.0.1:62953 - "GET /api/bookings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62965 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62968 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62975 - "GET /demo HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62979 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [25605]
