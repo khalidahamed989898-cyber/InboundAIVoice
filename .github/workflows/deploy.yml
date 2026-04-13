@@ -12,7 +12,7 @@ jobs:
 
       - name: Copy .env file
         run: |
-          echo "${{ secrets.ENV_FILE }}" > .env
+          echo "${{ secrets.ENV_CONTENT }}" > .env
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v0.1.0
