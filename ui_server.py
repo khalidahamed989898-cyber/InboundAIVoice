@@ -22,7 +22,7 @@ def read_config():
             config = json.load(f)
 
     def get_val(key, env_key, default=""):
-        return config.get(key) if config.get(key) else os.getenv(env_key, default)
+        return config.get(key) or os.getenv(env_key, default)
 
     return {
         "first_line": get_val(
