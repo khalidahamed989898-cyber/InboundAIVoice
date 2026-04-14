@@ -79,8 +79,12 @@ async def api_post_config(request: Request):
 @app.get("/api/logs")
 async def api_get_logs():
     config = read_config()
-    os.environ["SUPABASE_URL"] = config.get("supabase_url", "")
-    os.environ["SUPABASE_KEY"] = config.get("supabase_key", "")
+    os.environ["SUPABASE_URL"] = config.get("supabase_url") or os.getenv(
+        "SUPABASE_URL", ""
+    )
+    os.environ["SUPABASE_KEY"] = config.get("supabase_key") or os.getenv(
+        "SUPABASE_KEY", ""
+    )
     import db
 
     try:
@@ -94,8 +98,12 @@ async def api_get_logs():
 @app.get("/api/logs/{log_id}/transcript")
 async def api_get_transcript(log_id: str):
     config = read_config()
-    os.environ["SUPABASE_URL"] = config.get("supabase_url", "")
-    os.environ["SUPABASE_KEY"] = config.get("supabase_key", "")
+    os.environ["SUPABASE_URL"] = config.get("supabase_url") or os.getenv(
+        "SUPABASE_URL", ""
+    )
+    os.environ["SUPABASE_KEY"] = config.get("supabase_key") or os.getenv(
+        "SUPABASE_KEY", ""
+    )
     import db
 
     try:
@@ -126,8 +134,12 @@ async def api_get_transcript(log_id: str):
 @app.get("/api/bookings")
 async def api_get_bookings():
     config = read_config()
-    os.environ["SUPABASE_URL"] = config.get("supabase_url", "")
-    os.environ["SUPABASE_KEY"] = config.get("supabase_key", "")
+    os.environ["SUPABASE_URL"] = config.get("supabase_url") or os.getenv(
+        "SUPABASE_URL", ""
+    )
+    os.environ["SUPABASE_KEY"] = config.get("supabase_key") or os.getenv(
+        "SUPABASE_KEY", ""
+    )
     import db
 
     try:
@@ -140,8 +152,12 @@ async def api_get_bookings():
 @app.get("/api/stats")
 async def api_get_stats():
     config = read_config()
-    os.environ["SUPABASE_URL"] = config.get("supabase_url", "")
-    os.environ["SUPABASE_KEY"] = config.get("supabase_key", "")
+    os.environ["SUPABASE_URL"] = config.get("supabase_url") or os.getenv(
+        "SUPABASE_URL", ""
+    )
+    os.environ["SUPABASE_KEY"] = config.get("supabase_key") or os.getenv(
+        "SUPABASE_KEY", ""
+    )
     import db
 
     try:
@@ -160,8 +176,12 @@ async def api_get_stats():
 async def api_get_contacts():
     """CRM endpoint — groups call_logs by phone number, deduplicates into contacts."""
     config = read_config()
-    os.environ["SUPABASE_URL"] = config.get("supabase_url", "")
-    os.environ["SUPABASE_KEY"] = config.get("supabase_key", "")
+    os.environ["SUPABASE_URL"] = config.get("supabase_url") or os.getenv(
+        "SUPABASE_URL", ""
+    )
+    os.environ["SUPABASE_KEY"] = config.get("supabase_key") or os.getenv(
+        "SUPABASE_KEY", ""
+    )
     try:
         from supabase import create_client
 
