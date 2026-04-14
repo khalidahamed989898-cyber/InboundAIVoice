@@ -102,6 +102,8 @@ def get_live_config(phone_number: str | None = None):
         "stt_language": config.get("stt_language", "unknown"),
         "lang_preset": config.get("lang_preset", "multilingual"),
         "max_turns": config.get("max_turns", 25),
+        "cartesia_voice_id": config.get("cartesia_voice_id", ""),
+        "elevenlabs_voice_id": config.get("elevenlabs_voice_id", ""),
         **config,
     }
 
