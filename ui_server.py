@@ -849,7 +849,7 @@ async def get_dashboard():
         </div>
       </div>
       <div class="section-card" id="sarvam-voice-section">
-        <div class="section-title">Voice Synthesis</div>
+        <div class="section-title">Sarvam Voice</div>
        <div class="form-row" style="max-width:720px;">
          <div class="form-group">
            <label>Speaker Voice</label>
@@ -880,6 +880,22 @@ async def get_dashboard():
              <option value="bn-IN" {sel("tts_language", "bn-IN")}>Bengali (bn-IN)</option>
            </select>
          </div>
+       </div>
+     </div>
+     <div class="section-card" id="cartesia-voice-section" style="display:none;">
+        <div class="section-title">Cartesia Voice</div>
+       <div class="form-group" style="max-width:400px;">
+         <label>Voice ID</label>
+         <input type="text" id="cartesia_voice_id" placeholder="Enter Cartesia voice ID">
+         <div class="hint">Get voices from Cartesia dashboard or use default</div>
+       </div>
+     </div>
+     <div class="section-card" id="elevenlabs-voice-section" style="display:none;">
+        <div class="section-title">ElevenLabs Voice</div>
+       <div class="form-group" style="max-width:400px;">
+         <label>Voice ID</label>
+         <input type="text" id="elevenlabs_voice_id" placeholder="Enter ElevenLabs voice ID">
+         <div class="hint">Use '21m00Tcm4TlvDq8ikWAM' for default male voice</div>
        </div>
      </div>
      <div class="save-bar">
@@ -1289,8 +1305,13 @@ async function saveConfig(section) {{
       tts_provider: get('tts_provider'),
       tts_voice: get('tts_voice'),
       tts_language: get('tts_language'),
+      cartesia_voice_id: get('cartesia_voice_id'),
+      elevenlabs_voice_id: get('elevenlabs_voice_id'),
     }});
-    document.getElementById('sarvam-voice-section').style.display = get('tts_provider') === 'sarvam' ? 'block' : 'none';
+    const provider = get('tts_provider');
+    document.getElementById('sarvam-voice-section').style.display = provider === 'sarvam' ? 'block' : 'none';
+    document.getElementById('cartesia-voice-section').style.display = provider === 'cartesia' ? 'block' : 'none';
+    document.getElementById('elevenlabs-voice-section').style.display = provider === 'elevenlabs' ? 'block' : 'none';
   }} else if (section === 'credentials') {{
     Object.assign(payload, {{
       livekit_url: get('livekit_url'), sip_trunk_id: get('sip_trunk_id'),

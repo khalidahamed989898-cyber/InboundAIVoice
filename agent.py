@@ -641,12 +641,21 @@ async def entrypoint(ctx: JobContext):
             from livekit.plugins import cartesia
 
             cartesia_api_key = os.getenv("CARTESIA_API_KEY", "")
+            cartesia_voice = live_config.get("cartesia_voice_id", "")
             if cartesia_api_key:
-                agent_tts = cartesia.TTS(
-                    model="sonic-multilingual",
-                    api_key=cartesia_api_key,
-                )
-                logger.info("[TTS] Using Cartesia Sonic")
+                if cartesia_voice:
+                    agent_tts = cartesia.TTS(
+                        model="sonic-multilingual",
+                        api_key=cartesia_api_key,
+                        voice_id=cartesia_voice,
+                    )
+                    logger.info(f"[TTS] Using Cartesia Sonic — voice: {cartesia_voice}")
+                else:
+                    agent_tts = cartesia.TTS(
+                        model="sonic-multilingual",
+                        api_key=cartesia_api_key,
+                    )
+                    logger.info("[TTS] Using Cartesia Sonic (default voice)")
             else:
                 logger.warning(
                     "[TTS] CARTESIA_API_KEY not set — falling back to Sarvam"
