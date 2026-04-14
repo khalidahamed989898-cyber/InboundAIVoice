@@ -717,6 +717,10 @@ async def get_dashboard():
     <div class="nav-item" onclick="goTo('outbound', this)"><span class="icon"></span> Outbound Calls</div>
     <div class="nav-item" onclick="goTo('languages', this); initLanguagePage();"><span class="icon"></span> Language Presets</div>
     <div class="nav-item" onclick="goTo('demo', this); initDemo();"><span class="icon"></span> Demo Link</div>
+    <div class="nav-section" style="margin-top:16px;">Configuration</div>
+    <div class="nav-item" onclick="goTo('agent', this)"><span class="icon">⚙</span> Agent Settings</div>
+    <div class="nav-item" onclick="goTo('models', this)"><span class="icon"></span> Models & Voice</div>
+    <div class="nav-item" onclick="goTo('credentials', this)"><span class="icon">🔑</span> API Credentials</div>
   </div>
   <div class="sidebar-footer">
     <span class="status-dot pulse"></span>Agent Online
