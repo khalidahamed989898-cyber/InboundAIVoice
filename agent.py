@@ -622,51 +622,51 @@ async def entrypoint(ctx: JobContext):
         logger.info("[STT] Using Sarvam Saaras v3")
 
     # ── Build TTS (#2 24kHz, #10 ElevenLabs) ────────────────────────────
-    if tts_provider == "elevenlabs":
+    if tts_provider == "sarvam":
+        agent_tts = sarvam.TTS(
+            target_language_code=tts_language,
+            model="bulbul:v3",
+            speaker=tts_voice,
+            speech_sample_rate=24000,
+        )
+        logger.info(f"[TTS] Using Sarvam — voice: {tts_voice}")
+    elif tts_provider == "elevenlabs":
         try:
             from livekit.plugins import elevenlabs
 
             _el_voice_id = live_config.get(
                 "elevenlabs_voice_id", "21m00Tcm4TlvDq8ikWAM"
             )
-            agent_tts = elevenlabs.TTS(
-                model="eleven_turbo_v2_5",
-                voice_id=_el_voice_id,
+            agent_tts = elevenlabs.TTS(model="eleven_turbo_v2_5", voice_id=_el_voice_id)
+            logger.info(f"[TTS] Using ElevenLabs — voice: {_el_voice_id}")
+        except Exception as e:
+            logger.warning(f"[TTS] ElevenLabs failed: {e}, using Sarvam")
+            agent_tts = sarvam.TTS(
+                target_language_code=tts_language,
+                model="bulbul:v3",
+                speaker=tts_voice,
+                speech_sample_rate=24000,
             )
-            logger.info(f"[TTS] Using ElevenLabs Turbo v2.5 — voice: {_el_voice_id}")
-        except ImportError:
-            logger.warning(
-                "[TTS] elevenlabs plugin not installed — falling back to Sarvam"
-            )
-elif tts_provider == "cartesia":
+    elif tts_provider == "cartesia":
         try:
             from livekit.plugins import cartesia
 
             cartesia_api_key = os.getenv("CARTESIA_API_KEY", "")
-            cartesia_voice_id = live_config.get("cartesia_voice_id", "") or os.getenv("CARTESIA_VOICE_ID", "")
             if cartesia_api_key:
-                if cartesia_voice_id:
-                    os.environ["CARTESIA_VOICE_ID"] = cartesia_voice_id
-                    logger.info(f"[TTS] Cartesia voice set to: {cartesia_voice_id}")
                 agent_tts = cartesia.TTS(
-                    model="sonic-multilingual",
-                    api_key=cartesia_api_key,
+                    model="sonic-multilingual", api_key=cartesia_api_key
                 )
-                logger.info("[TTS] Using Cartesia (sonic-multilingual)")
+                logger.info("[TTS] Using Cartesia")
             else:
-                logger.warning(
-                    "[TTS] CARTESIA_API_KEY not set — falling back to Sarvam"
-                )
+                logger.warning("[TTS] CARTESIA_API_KEY not set, using Sarvam")
                 agent_tts = sarvam.TTS(
                     target_language_code=tts_language,
                     model="bulbul:v3",
                     speaker=tts_voice,
                     speech_sample_rate=24000,
                 )
-        except ImportError:
-            logger.warning(
-                "[TTS] Cartesia plugin not installed — falling back to Sarvam"
-            )
+        except Exception as e:
+            logger.warning(f"[TTS] Cartesia failed: {e}, using Sarvam")
             agent_tts = sarvam.TTS(
                 target_language_code=tts_language,
                 model="bulbul:v3",
@@ -678,11 +678,9 @@ elif tts_provider == "cartesia":
             target_language_code=tts_language,
             model="bulbul:v3",
             speaker=tts_voice,
-            speech_sample_rate=24000,  # force 24kHz (#2)
+            speech_sample_rate=24000,
         )
-        logger.info(
-            f"[TTS] Using Sarvam Bulbul v3 — voice: {tts_voice} lang: {tts_language}"
-        )
+        logger.info(f"[TTS] Using Sarvam — voice: {tts_voice}")
 
     # ── Sentence chunker (keep responses short for voice) ─────────────────
     def before_tts_cb(agent_response: str) -> str:
