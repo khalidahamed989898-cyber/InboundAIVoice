@@ -636,24 +636,21 @@ async def entrypoint(ctx: JobContext):
             logger.warning(
                 "[TTS] elevenlabs plugin not installed — falling back to Sarvam"
             )
-    elif tts_provider == "cartesia":
+elif tts_provider == "cartesia":
         try:
             from livekit.plugins import cartesia
 
             cartesia_api_key = os.getenv("CARTESIA_API_KEY", "")
-            cartesia_voice = os.getenv(
-                "CARTESIA_VOICE_ID", live_config.get("cartesia_voice_id", "")
-            )
+            cartesia_voice_id = live_config.get("cartesia_voice_id", "") or os.getenv("CARTESIA_VOICE_ID", "")
             if cartesia_api_key:
-                if cartesia_voice:
-                    os.environ["CARTESIA_VOICE_ID"] = cartesia_voice
+                if cartesia_voice_id:
+                    os.environ["CARTESIA_VOICE_ID"] = cartesia_voice_id
+                    logger.info(f"[TTS] Cartesia voice set to: {cartesia_voice_id}")
                 agent_tts = cartesia.TTS(
                     model="sonic-multilingual",
                     api_key=cartesia_api_key,
                 )
-                logger.info(
-                    f"[TTS] Using Cartesia Sonic — voice: {cartesia_voice or 'default'}"
-                )
+                logger.info("[TTS] Using Cartesia (sonic-multilingual)")
             else:
                 logger.warning(
                     "[TTS] CARTESIA_API_KEY not set — falling back to Sarvam"
