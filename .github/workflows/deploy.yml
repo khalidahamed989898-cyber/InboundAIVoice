@@ -10,20 +10,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "Host *" > ~/.ssh/config
+          echo "    StrictHostKeyChecking no" >> ~/.ssh/config
+
       - name: Copy .env file
         run: |
           echo "${{ secrets.ENV_CONTENT }}" > .env
 
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v0.1.0
-        with:
-          host: ${{ secrets.DROPLET_IP }}
-          username: root
-          password: ${{ secrets.DROPLET_PASSWORD }}
-          script: |
-            cd /root/InboundAIVoice
-            git pull origin main
-            docker stop voice-agent 2>/dev/null || true
-            docker rm voice-agent 2>/dev/null || true
-            docker build -t voice-agent .
+        run: |
+          ssh -o StrictHostKeyChecking=no root@${{ secrets.DROPLET_IP }} "
+            cd /root/InboundAIVoice && \
+            git pull origin main && \
+            docker stop voice-agent 2>/dev/null || true && \
+            docker rm voice-agent 2>/dev/null || true && \
+            docker build -t voice-agent . && \
             docker run -d --name voice-agent -p 8000:8000 -p 8081:8081 --env-file .env voice-agent
+          "
