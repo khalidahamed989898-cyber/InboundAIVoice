@@ -36,6 +36,7 @@ def read_config():
         ),
         "llm_model": get_val("llm_model", "LLM_MODEL", "gpt-4o-mini"),
         "tts_voice": get_val("tts_voice", "TTS_VOICE", "kavya"),
+        "tts_provider": get_val("tts_provider", "TTS_PROVIDER", "sarvam"),
         "tts_language": get_val("tts_language", "TTS_LANGUAGE", "hi-IN"),
         "livekit_url": get_val("livekit_url", "LIVEKIT_URL", ""),
         "sip_trunk_id": get_val("sip_trunk_id", "SIP_TRUNK_ID", ""),
@@ -832,11 +833,23 @@ async def get_dashboard():
           <option value="o3" {sel("llm_model", "o3")}>o3 — Reasoning, Best</option>
           <option value="gpt-4-turbo" {sel("llm_model", "gpt-4-turbo")}>gpt-4-turbo — Legacy</option>
           <option value="gpt-3.5-turbo" {sel("llm_model", "gpt-3.5-turbo")}>gpt-3.5-turbo — Cheapest</option>
-        </select>
-      </div>
-    </div>
-    <div class="section-card">
-      <div class="section-title">Voice Synthesis (Sarvam bulbul:v3)</div>
+</select>
+       </div>
+     </div>
+     <div class="section-card">
+       <div class="section-title">Voice Provider</div>
+       <div class="form-group" style="max-width:360px;">
+         <label>TTS Provider</label>
+         <select id="tts_provider">
+           <option value="sarvam" {sel("tts_provider", "sarvam")}>Sarvam Bulbul v3 — Default</option>
+           <option value="elevenlabs" {sel("tts_provider", "elevenlabs")}>Eleven Labs Turbo v2.5</option>
+           <option value="cartesia" {sel("tts_provider", "cartesia")}>Cartesia Sonic (Fast)</option>
+         </select>
+         <div class="hint">Set CARTESIA_API_KEY or ELEVEN_LABS_API_KEY in environment variables</div>
+       </div>
+     </div>
+     <div class="section-card">
+       <div class="section-title">Voice Synthesis</div>
       <div class="form-row" style="max-width:720px;">
         <div class="form-group">
           <label>Speaker Voice</label>
