@@ -885,9 +885,23 @@ async def get_dashboard():
      <div class="section-card" id="cartesia-voice-section" style="display:none;">
         <div class="section-title">Cartesia Voice</div>
        <div class="form-group" style="max-width:400px;">
-         <label>Voice ID</label>
-         <input type="text" id="cartesia_voice_id" placeholder="Enter Cartesia voice ID">
-         <div class="hint">Get voices from Cartesia dashboard or use default</div>
+         <label>Select Voice</label>
+         <select id="cartesia_voice_id">
+           <option value="">Use default voice</option>
+           <option value="95d51f79-c397-46f9-b49a-23763d3eaa2d">Arushi — Female, Warm</option>
+           <option value="bec003e2-3cb3-429c-8468-206a393c67ad">Parvati — Female, Soft</option>
+           <option value="4877b818-c7fe-4c89-b1cf-eadf8e23da72">Rohan — Male, Balanced</option>
+           <option value="098fb15d-2597-4186-8b74-25340050b6e7">Vishal — Male, Deep</option>
+           <option value="910fb75e-1d20-4840-ac63-ac6b26a71bdc">Dev — Male, Professional</option>
+           <option value="0f14d8cb-f039-41fe-a813-a9b4bee7eed8">Nisha — Female, Friendly</option>
+           <option value="a81fccdc-5595-4dfc-ae76-4de6a515b8a2">Meera — Female, Clear</option>
+           <option value="791d5162-d5eb-40f0-8189-f19db44611d8">Ayush — Male, Casual</option>
+           <option value="56e35e2d-6eb6-4226-ab8b-9776515a7094">Kavita — Female, Warm</option>
+           <option value="7e8cb11d-37af-476b-ab8f-25da99b18644">Anuj — Male, Formal</option>
+           <option value="47f3bbb1-e98f-4e0c-92c5-5f0325e1e206">Neha — Female, Energetic</option>
+           <option value="6303e5fb-a0a7-48f9-bb1a-dd42c216dc5d">Sagar — Male, Deep</option>
+           <option value="faf0731e-dfb9-4cfc-8119-259a79b27e12">Riya — Female, Soft</option>
+         </select>
        </div>
      </div>
      <div class="section-card" id="elevenlabs-voice-section" style="display:none;">
