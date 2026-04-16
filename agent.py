@@ -396,6 +396,7 @@ class OutboundAssistant(Agent):
         super().__init__(instructions=final_instructions, tools=tools)
 
     async def on_enter(self):
+        logger.info("[AGENT] on_enter triggered - starting greeting")
         greeting = self._live_config.get(
             "first_line",
             self._first_line
@@ -404,9 +405,11 @@ class OutboundAssistant(Agent):
                 "Hmm, may I ask what kind of business you run?"
             ),
         )
+        logger.info(f"[AGENT] Sending greeting: {greeting[:50]}...")
         await self.session.generate_reply(
             instructions=f"Say exactly this phrase: '{greeting}'"
         )
+        logger.info("[AGENT] Greeting complete - waiting for user response")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -510,6 +513,11 @@ async def entrypoint(ctx: JobContext):
     stt_provider = live_config.get("stt_provider", "sarvam")
     stt_language = live_config.get("stt_language", "unknown")  # auto-detect (#20)
     max_turns = live_config.get("max_turns", 25)
+    cartesia_voice_id = live_config.get("cartesia_voice_id", "")
+
+    logger.info(
+        f"[CONFIG] LLM: {llm_model}, TTS: {tts_provider}, STT: {stt_provider}, Voice: {tts_voice}, CartesiaVoice: {cartesia_voice_id}"
+    )
 
     # Override OS env vars from UI config
     for key in [
@@ -734,6 +742,7 @@ async def entrypoint(ctx: JobContext):
     )
 
     await session.start(room=ctx.room, agent=agent, room_input_options=room_input)
+    logger.info("[SESSION] Agent session started, waiting for caller...")
 
     # ── TTS pre-warm (#12) ────────────────────────────────────────────────
     try:
